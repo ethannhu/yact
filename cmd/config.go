@@ -1,9 +1,8 @@
 package cmd
 
 import (
-	"bufio"
 	"fmt"
-	"log"
+	"io"
 	"net/http"
 
 	"github.com/spf13/cobra"
@@ -30,13 +29,7 @@ var configCmd = &cobra.Command{
 			return
 		}
 		defer resp.Body.Close()
-		scanner := bufio.NewScanner(resp.Body)
-		for scanner.Scan() {
-			line := scanner.Text()
-			fmt.Println("Received:", line)
-		}
-		if err := scanner.Err(); err != nil {
-			log.Fatal("Read failed:", err)
-		}
+		body, _ := io.ReadAll(resp.Body)
+		fmt.Println(string(body))
 	},
 }
