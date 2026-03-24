@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/url"
-	"yact/internal/mihomo"
+	"yact/pkg/mihomo"
 
 	tea "charm.land/bubbletea/v2"
 	"github.com/tidwall/gjson"

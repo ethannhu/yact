@@ -8,22 +8,22 @@ import (
 )
 
 type Core struct {
-	address string
-	secret  string
+	Address string
+	Secret  string
 }
 
 func Get(path string) []byte {
 
 	c := Core{
-		address: "http://localhost:9097/",
-		secret:  "123456",
+		Address: "http://localhost:9097/",
+		Secret:  "123456",
 	}
 	client := &http.Client{
 		Timeout: 0,
 	}
-	url := c.address + path
+	url := c.Address + path
 	req, _ := http.NewRequest(http.MethodGet, url, nil)
-	req.Header.Add("Authorization", "Bearer "+c.secret)
+	req.Header.Add("Authorization", "Bearer "+c.Secret)
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Req failed", err)
@@ -34,18 +34,37 @@ func Get(path string) []byte {
 	return body
 }
 
-func Put(path string, data []byte) string {
-
+func GetStream(path string) *http.Response {
 	c := Core{
-		address: "http://localhost:9097/",
-		secret:  "123456",
+		Address: "http://localhost:9097/",
+		Secret:  "123456",
 	}
 	client := &http.Client{
 		Timeout: 0,
 	}
-	url := c.address + path
+	url := c.Address + path
+	req, _ := http.NewRequest(http.MethodGet, url, nil)
+	req.Header.Add("Authorization", "Bearer "+c.Secret)
+	resp, err := client.Do(req)
+	if err != nil {
+		fmt.Println("Req failed", err)
+		panic(err)
+	}
+	return resp
+}
+
+func Put(path string, data []byte) string {
+
+	c := Core{
+		Address: "http://localhost:9097/",
+		Secret:  "123456",
+	}
+	client := &http.Client{
+		Timeout: 0,
+	}
+	url := c.Address + path
 	req, _ := http.NewRequest(http.MethodPut, url, bytes.NewBuffer(data))
-	req.Header.Add("Authorization", "Bearer "+c.secret)
+	req.Header.Add("Authorization", "Bearer "+c.Secret)
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Println("Req failed", err)

@@ -85,20 +85,20 @@ get_os() {
     esac
 }
 
-# 从本地安装 mihomo（查找当前目录下的 mihomo.gz）
+# 从本地安装 mihomo（查找当前目录下的 {{.Core}}）
 install_local_mihomo() {
-    local source_file="mihomo.gz"
+    local source_file={{.Core}}
 
-    log_info "正在查找本地 mihomo.gz 文件..."
+    log_info "正在查找本地 {{.Core}} 文件..."
 
-    # 查找当前目录下的 mihomo.gz
+    # 查找当前目录下的 {{.Core}}
     if [[ ! -f "$source_file" ]]; then
-        log_error "未在当前目录找到 mihomo.gz 文件"
-        log_error "请确保 mihomo.gz 文件位于脚本同一目录下"
+        log_error "未在当前目录找到 {{.Core}} 文件"
+        log_error "请确保 {{.Core}} 文件位于脚本同一目录下"
         exit 1
     fi
 
-    log_info "找到 mihomo.gz，正在解压..."
+    log_info "找到 {{.Core}}，正在解压..."
 
     # 解压
     gunzip -f "$source_file" || {
@@ -161,15 +161,15 @@ create_config_dir() {
     fi
 
     # 复制配置文件（如果有的话）
-    if [[ -f "config.yaml" ]]; then
-        log_info "发现 config.yaml，正在复制到 /etc/mihomo/..."
-        cp config.yaml /etc/mihomo/ || {
+    if [[ -f {{.Config}} ]]; then
+        log_info "发现 {{.Config}}，正在复制到 /etc/mihomo/..."
+        cp {{.Config}} /etc/mihomo/ || {
             log_error "复制配置文件失败"
             exit 1
         }
         log_info "配置文件复制成功"
     else
-        log_warn "未找到 config.yaml 文件，将使用默认配置"
+        log_warn "未找到 {{.Config}} 文件，将使用默认配置"
         # 创建最小配置文件
         cat > /etc/mihomo/config.yaml << 'EOF'
 # Mihomo 配置文件
